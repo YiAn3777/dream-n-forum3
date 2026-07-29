@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI協力示例成果發表交流會-流程說明</title>
+<style>
+  :root{
+    --ink:#141b2e;
+    --ink-2:#1d2740;
+    --ink-3:#28345480;
+    --paper:#eeece2;
+    --paper-dim:#b9b6a9;
+    --gold:#d9a441;
+    --gold-soft:#d9a44133;
+    --yellow:#f4d35e;
+    --yellow-text:#3a2e05;
+    --teal:#4fb8a6;
+    --teal-soft:#4fb8a626;
+    --line:#3a466b;
+    --room-A:#e07a5f;
+    --room-B:#4fb8a6;
+    --room-C:#d9a441;
+    --room-D:#8fb3e0;
+    --room-E:#c68fe0;
+    --room-F:#7bc47f;
+    --room-G:#e0a0c0;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #1e2a4a 0%, transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, #232f52 0%, transparent 55%),
+      var(--ink);
+    color:var(--paper);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+    min-height:100vh;
+    line-height:1.6;
+  }
+  .mono{font-family:"JetBrains Mono","Roboto Mono",ui-monospace,monospace;}
+  .serif{font-family:"Noto Serif TC","Songti TC",serif;}
+
+  header.hero{
+    padding:48px 24px 28px;
+    max-width:980px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    letter-spacing:.14em;
+    color:var(--gold);
+    text-transform:uppercase;
+    margin-bottom:16px;
+  }
+  .eyebrow::before, .eyebrow::after{
+    content:"";
+    width:24px;height:1px;background:var(--gold);
+    opacity:.6;
+  }
+  h1.title{
+    font-size:clamp(24px,4vw,38px);
+    margin:0 0 10px;
+    font-weight:700;
+    letter-spacing:.01em;
+  }
+  .subtitle{
+    color:var(--paper-dim);
+    font-size:14px;
+    max-width:560px;
+    margin:0 auto;
+  }
+
+  .rail{
+    display:flex;
+    justify-content:center;
+    gap:0;
+    margin:32px auto 0;
+    max-width:720px;
+    position:relative;
+  }
+  .rail::before{
+    content:"";
+    position:absolute;
+    top:19px; left:12%; right:12%;
+    height:2px;
+    background:linear-gradient(90deg, transparent, var(--line) 10%, var(--line) 90%, transparent);
+  }
+  .rail-stop{
+    flex:1;
+    text-align:center;
+    position:relative;
+    z-index:1;
+  }
+  .rail-dot{
+    width:12px;height:12px;border-radius:50%;
+    background:var(--ink);
+    border:2px solid var(--gold);
+    margin:0 auto 10px;
+  }
+  .rail-time{font-size:12px;color:var(--paper-dim);}
+  .rail-label{font-size:14px;font-weight:600;margin-top:2px;}
+
+  main{
+    max-width:980px;
+    margin:0 auto;
+    padding:12px 24px 100px;
+  }
+
+  section{margin-bottom:44px;}
+  .section-title{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:16px;
+  }
+  .section-title h2{
+    font-size:19px;
+    margin:0;
+  }
+  .section-num{
+    font-family:"JetBrains Mono",monospace;
+    font-size:12px;
+    color:var(--gold);
+    border:1px solid var(--gold);
+    border-radius:100px;
+    padding:2px 10px;
+  }
+
+  .panel{
+    background:var(--ink-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px;
+    margin-bottom:20px;
+  }
+
+  .step-label{
+    font-size:12px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:14px;
+    font-weight:600;
+  }
+
+  .segmented{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .seg-option{
+    flex:1;
+    min-width:200px;
+    position:relative;
+  }
+  .seg-option input{
+    position:absolute;
+    opacity:0;
+    width:100%;height:100%;
+    cursor:pointer;
+    margin:0;
+    top:0;left:0;
+  }
+  .seg-card{
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    transition:border-color .15s ease, background .15s ease;
+    background:transparent;
+  }
+  .seg-option input:checked ~ .seg-card{
+    border-color:var(--gold);
+    background:var(--gold-soft);
+  }
+  .seg-option input:focus-visible ~ .seg-card{
+    outline:2px solid var(--gold);
+    outline-offset:2px;
+  }
+  .seg-title{font-weight:700;font-size:15px;margin-bottom:4px;}
+  .seg-desc{font-size:12.5px;color:var(--paper-dim);}
+
+  select{
+    width:100%;
+    padding:14px 16px;
+    background:var(--ink);
+    color:var(--paper);
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    font-size:15px;
+    font-family:inherit;
+    appearance:none;
+    -webkit-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9'><path d='M1 1l6 6 6-6' stroke='%23d9a441' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 16px center;
+    cursor:pointer;
+  }
+  select:disabled{opacity:.4;cursor:not-allowed;}
+  select:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+
+  .hint{font-size:12.5px;color:var(--paper-dim);margin-top:10px;}
+
+  #results{display:none;}
+  #results.show{display:block;}
+
+  .result-heading{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:6px;
+    flex-wrap:wrap;
+  }
+  .result-heading h3{
+    font-size:19px;
+    margin:0;
+  }
+  .badge{
+    font-size:11px;
+    padding:4px 10px;
+    border-radius:100px;
+    background:var(--teal-soft);
+    color:var(--teal);
+    font-weight:700;
+    letter-spacing:.04em;
+  }
+
+  .group-members{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin:18px 0 4px;
+  }
+  .member-chip{
+    padding:8px 14px;
+    border-radius:100px;
+    border:1.5px solid var(--line);
+    font-size:13.5px;
+    color:var(--paper-dim);
+  }
+  /* 黃色醒目標示 - 依需求規範 */
+  .member-chip.me{
+    border-color:var(--yellow);
+    background:var(--yellow);
+    color:var(--yellow-text);
+    font-weight:800;
+  }
+
+  .timeline{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin-top:22px;
+  }
+  @media (max-width:720px){
+    .timeline{grid-template-columns:1fr;}
+    .rail{max-width:100%;}
+  }
+
+  .slot-card{
+    background:var(--ink);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:18px;
+    position:relative;
+  }
+  .slot-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+  }
+  .slot-name{font-size:13px;color:var(--paper-dim);}
+  .slot-time{font-size:11.5px;color:var(--paper-dim);}
+
+  .room-chip{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:34px;height:34px;
+    border-radius:8px;
+    font-weight:800;
+    font-size:16px;
+    color:var(--ink);
+  }
+  /* 黃色醒目標示教室 */
+  .room-chip.highlight{
+    background:var(--yellow) !important;
+    color:var(--yellow-text);
+    box-shadow:0 0 0 3px var(--yellow), 0 0 18px 2px #f4d35e55;
+  }
+
+  .listen-list{
+    list-style:none;
+    margin:12px 0 0;
+    padding:0;
+    font-size:13.5px;
+  }
+  .listen-list li{
+    padding:6px 0;
+    border-top:1px dashed var(--ink-3);
+    color:var(--paper);
+  }
+  .listen-list li:first-child{border-top:none;}
+
+  .off-card{border:1.5px dashed var(--line);background:transparent;}
+  .off-tag{font-size:13px;color:var(--paper-dim);font-weight:600;}
+  .reminder{
+    margin-top:12px;
+    padding:12px 14px;
+    background:var(--teal-soft);
+    border:1px solid var(--teal);
+    border-radius:10px;
+    font-size:13px;
+    line-height:1.6;
+  }
+  .reminder strong{color:var(--teal);}
+
+  .empty-state{text-align:center;color:var(--paper-dim);font-size:14px;padding:20px 0;}
+
+  /* ===== 靜態表格 ===== */
+  .table-scroll{
+    overflow-x:auto;
+    border:1px solid var(--line);
+    border-radius:12px;
+    -webkit-overflow-scrolling:touch;
+  }
+  table{
+    border-collapse:collapse;
+    width:100%;
+    min-width:560px;
+    font-size:13.5px;
+  }
+  table.wide{min-width:760px;}
+  th,td{
+    padding:10px 14px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+    border-right:1px solid var(--ink-3);
+    white-space:nowrap;
+  }
+  th:last-child, td:last-child{border-right:none;}
+  thead th{
+    background:var(--ink-2);
+    color:var(--gold);
+    font-size:12px;
+    letter-spacing:.03em;
+    position:sticky;
+    top:0;
+  }
+  tbody tr:nth-child(even){background:#ffffff05;}
+  tbody th{
+    background:var(--ink-2);
+    color:var(--paper);
+    font-weight:700;
+  }
+  td.room-tag{
+    font-weight:800;
+  }
+  .cell-sub{
+    display:block;
+    font-size:11px;
+    color:var(--paper-dim);
+    margin-top:2px;
+  }
+
+  footer{text-align:center;color:var(--paper-dim);font-size:12px;padding:20px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="eyebrow">115年夢的N次方-策略會議</div>
+  <h1 class="title serif">AI協力示例成果發表交流會-流程說明</h1>
+  <p class="subtitle">選擇身分與班級，立即查詢分組、教室與聆聽行程；下方並提供完整總表供對照查閱</p>
+
+  <div class="rail mono">
+    <div class="rail-stop">
+      <div class="rail-dot"></div>
+      <div class="rail-time">13:30–14:30</div>
+      <div class="rail-label">時段一</div>
+    </div>
+    <div class="rail-stop">
+      <div class="rail-dot"></div>
+      <div class="rail-time">14:40–15:40</div>
+      <div class="rail-label">時段二</div>
+    </div>
+    <div class="rail-stop">
+      <div class="rail-dot"></div>
+      <div class="rail-time">15:50–16:50</div>
+      <div class="rail-label">時段三</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ========== 互動查詢區 ========== -->
+  <section id="query">
+    <div class="section-title">
+      <span class="section-num">Query</span>
+      <h2 class="serif">個人化路線查詢</h2>
+    </div>
+
+    <div class="panel">
+      <div class="step-label">Step 1 · 選擇身分</div>
+      <div class="segmented" role="radiogroup" aria-label="身分別">
+        <label class="seg-option">
+          <input type="radio" name="role" value="listener">
+          <div class="seg-card">
+            <div class="seg-title">跑班者（共學者）</div>
+            <div class="seg-desc">共 28 班，依組別跑班聽講</div>
+          </div>
+        </label>
+        <label class="seg-option">
+          <input type="radio" name="role" value="presenter">
+          <div class="seg-card">
+            <div class="seg-title">發表者（講師）</div>
+            <div class="seg-desc">共 21 班，於固定教室發表</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="step-label">Step 2 · 選擇班級</div>
+      <select id="classSelect" disabled>
+        <option value="">請先選擇身分別</option>
+      </select>
+      <div class="hint" id="classHint">選擇身分後，此處會列出對應的班級清單。</div>
+    </div>
+
+    <div id="results"></div>
+  </section>
+
+  <!-- ========== 表一：活動流程表 ========== -->
+  <section id="flow">
+    <div class="section-title">
+      <span class="section-num">表一</span>
+      <h2 class="serif">活動流程表</h2>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>時間</th><th>流程</th><th>說明</th></tr>
+        </thead>
+        <tbody id="flowTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ========== 表二：共學者跑班路線與組別分佈總表 ========== -->
+  <section id="listener-table">
+    <div class="section-title">
+      <span class="section-num">表二</span>
+      <h2 class="serif">共學者（聽講者）跑班路線與組別分佈總表</h2>
+    </div>
+    <div class="table-scroll">
+      <table class="wide">
+        <thead>
+          <tr>
+            <th>組別</th>
+            <th>班級一</th><th>班級二</th><th>班級三</th><th>班級四</th>
+            <th>時段一<br><span class="cell-sub mono">13:30-14:30</span></th>
+            <th>時段二<br><span class="cell-sub mono">14:40-15:40</span></th>
+            <th>時段三<br><span class="cell-sub mono">15:50-16:50</span></th>
+          </tr>
+        </thead>
+        <tbody id="listenerTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ========== 表三：各時段各教室發表班級總表 ========== -->
+  <section id="room-table">
+    <div class="section-title">
+      <span class="section-num">表三</span>
+      <h2 class="serif">各時段各教室發表班級總表</h2>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>教室</th>
+            <th>時段一<br><span class="cell-sub mono">13:30-14:30</span></th>
+            <th>時段二<br><span class="cell-sub mono">14:40-15:40</span></th>
+            <th>時段三<br><span class="cell-sub mono">15:50-16:50</span></th>
+          </tr>
+        </thead>
+        <tbody id="roomTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>AI協力示例成果發表交流會・115年夢的N次方-策略會議</footer>
+
+<script>
+/* ===================== 資料結構 ===================== */
+const LISTENER_CLASSES = [
+  "國中國文","國中數學","國中英語","國中自然","國中社會","國中綜合",
+  "國小國語","國小國語MAPS","國小英語","國小數學A","國小數學B","國小數學EECC","國小自然","國小社會","國小綜合",
+  "音樂","視覺","表演","聽說讀寫有策略","閱讀Song讀","科技教育","特殊教育","健康教育","體育",
+  "高中國文","高中數學","高中英語","學前教育"
+];
+
+const PRESENTER_CLASSES = [
+  "國中國文","國中數學","國中英語","國中自然","國中社會","國中綜合",
+  "國小國語","國小國語MAPS","國小英語","國小數學A","國小數學B","國小數學EECC","國小自然","國小社會","國小綜合",
+  "視覺","表演","聽說讀寫有策略","閱讀Song讀","科技教育","健康教育"
+];
+
+const GROUPS = {
+  1: ["國中國文","國中數學","國小自然","學前教育"],
+  2: ["國小社會","國小數學A","表演","高中英語"],
+  3: ["國小國語","國小數學B","國中社會","閱讀Song讀"],
+  4: ["國小綜合","國小數學EECC","視覺","健康教育"],
+  5: ["國小國語MAPS","高中數學","國中英語","聽說讀寫有策略"],
+  6: ["特殊教育","科技教育","國中綜合","國小英語"],
+  7: ["高中國文","音樂","國中自然","體育"],
+};
+
+const CLASS_TO_GROUP = {};
+Object.entries(GROUPS).forEach(([g, arr]) => arr.forEach(c => CLASS_TO_GROUP[c] = Number(g)));
+
+const GROUP_ROUTES = {
+  1: {1:{room:"B", listen:["國小英語","國小數學EECC"]}, 2:{room:"G", listen:["健康教育","表演"]}, 3:{room:"E", listen:["科技教育","國中自然"]}},
+  2: {1:{room:"C", listen:["國中英語","視覺"]}, 2:{room:"D", listen:["國小國語","國小綜合"]}, 3:{room:"G", listen:["健康教育","國中社會"]}},
+  3: {1:{room:"D", listen:["國小社會","國小綜合"]}, 2:{room:"E", listen:["科技教育","聽說讀寫有策略"]}, 3:{room:"C", listen:["國小自然","國中英語"]}},
+  4: {1:{room:"E", listen:["國中自然","聽說讀寫有策略"]}, 2:{room:"F", listen:["國小國語MAPS","閱讀Song讀"]}, 3:{room:"A", listen:["國中綜合","國中數學"]}},
+  5: {1:{room:"F", listen:["國小數學B","閱讀Song讀"]}, 2:{room:"A", listen:["國中綜合","國小數學A"]}, 3:{room:"B", listen:["國中國文","國小英語"]}},
+  6: {1:{room:"G", listen:["國中社會","表演"]}, 2:{room:"B", listen:["國中國文","國小數學EECC"]}, 3:{room:"F", listen:["國小國語MAPS","國小數學B"]}},
+  7: {1:{room:"A", listen:["國中數學","國小數學A"]}, 2:{room:"C", listen:["國小自然","視覺"]}, 3:{room:"D", listen:["國小國語","國小社會"]}},
+};
+
+const PRESENTER_SCHEDULE = {
+  "國中國文":    {1:"OFF", 2:{room:"B", with:"國小數學EECC"}, 3:{room:"B", with:"國小英語"}},
+  "國中數學":    {1:{room:"A", with:"國小數學A"}, 2:"OFF", 3:{room:"A", with:"國中綜合"}},
+  "國中英語":    {1:{room:"C", with:"視覺"}, 2:"OFF", 3:{room:"C", with:"國小自然"}},
+  "國中自然":    {1:{room:"E", with:"聽說讀寫有策略"}, 2:"OFF", 3:{room:"E", with:"科技教育"}},
+  "國中社會":    {1:{room:"G", with:"表演"}, 2:"OFF", 3:{room:"G", with:"健康教育"}},
+  "國中綜合":    {1:"OFF", 2:{room:"A", with:"國小數學A"}, 3:{room:"A", with:"國中數學"}},
+  "國小國語":    {1:"OFF", 2:{room:"D", with:"國小綜合"}, 3:{room:"D", with:"國小社會"}},
+  "國小國語MAPS":{1:"OFF", 2:{room:"F", with:"閱讀Song讀"}, 3:{room:"F", with:"國小數學B"}},
+  "國小英語":    {1:{room:"B", with:"國小數學EECC"}, 2:"OFF", 3:{room:"B", with:"國中國文"}},
+  "國小數學A":   {1:{room:"A", with:"國中數學"}, 2:{room:"A", with:"國中綜合"}, 3:"OFF"},
+  "國小數學B":   {1:{room:"F", with:"閱讀Song讀"}, 2:"OFF", 3:{room:"F", with:"國小國語MAPS"}},
+  "國小數學EECC":{1:{room:"B", with:"國小英語"}, 2:{room:"B", with:"國中國文"}, 3:"OFF"},
+  "國小自然":    {1:"OFF", 2:{room:"C", with:"視覺"}, 3:{room:"C", with:"國中英語"}},
+  "國小社會":    {1:{room:"D", with:"國小綜合"}, 2:"OFF", 3:{room:"D", with:"國小國語"}},
+  "國小綜合":    {1:{room:"D", with:"國小社會"}, 2:{room:"D", with:"國小國語"}, 3:"OFF"},
+  "視覺":        {1:{room:"C", with:"國中英語"}, 2:{room:"C", with:"國小自然"}, 3:"OFF"},
+  "表演":        {1:{room:"G", with:"國中社會"}, 2:{room:"G", with:"健康教育"}, 3:"OFF"},
+  "聽說讀寫有策略":{1:{room:"E", with:"國中自然"}, 2:{room:"E", with:"科技教育"}, 3:"OFF"},
+  "閱讀Song讀":  {1:{room:"F", with:"國小數學B"}, 2:{room:"F", with:"國小國語MAPS"}, 3:"OFF"},
+  "科技教育":    {1:"OFF", 2:{room:"E", with:"聽說讀寫有策略"}, 3:{room:"E", with:"國中自然"}},
+  "健康教育":    {1:"OFF", 2:{room:"G", with:"表演"}, 3:{room:"G", with:"國中社會"}},
+};
+
+const SESSIONS = [
+  {id:1, label:"時段一", time:"13:30–14:30"},
+  {id:2, label:"時段二", time:"14:40–15:40"},
+  {id:3, label:"時段三", time:"15:50–16:50"},
+];
+
+const ROOMS = ["A","B","C","D","E","F","G"];
+
+const FLOW_ROWS = [
+  {time:"13:30 - 14:30", event:"成果發表時段一", note:"七班輪流發表"},
+  {time:"14:30 - 14:40", event:"休息時間", note:"—"},
+  {time:"14:40 - 15:40", event:"成果發表時段二", note:"七班輪流發表"},
+  {time:"15:40 - 15:50", event:"休息時間", note:"—"},
+  {time:"15:50 - 16:50", event:"成果發表時段三", note:"七班輪流發表"},
+  {time:"16:50 - 17:00", event:"休息時間 / 領餐盒", note:"—"},
+  {time:"17:00 - 17:30", event:"各班時間", note:"—"},
+];
+
+/* ===================== DOM refs ===================== */
+const classSelect = document.getElementById("classSelect");
+const classHint = document.getElementById("classHint");
+const resultsEl = document.getElementById("results");
+let currentRole = null;
+
+document.querySelectorAll('input[name="role"]').forEach(radio => {
+  radio.addEventListener("change", (e) => {
+    currentRole = e.target.value;
+    populateClassSelect(currentRole);
+    resultsEl.classList.remove("show");
+    resultsEl.innerHTML = "";
+  });
+});
+
+function populateClassSelect(role){
+  const list = role === "listener" ? LISTENER_CLASSES : PRESENTER_CLASSES;
+  classSelect.disabled = false;
+  classSelect.innerHTML = '<option value="">請選擇班級…</option>' +
+    list.map(c => `<option value="${c}">${c}</option>`).join("");
+  classHint.textContent = role === "listener"
+    ? "以下為 28 個共學者（跑班者）班級"
+    : "以下為 21 個發表者（講師）班級";
+}
+
+classSelect.addEventListener("change", (e) => {
+  const cls = e.target.value;
+  if(!cls){
+    resultsEl.classList.remove("show");
+    resultsEl.innerHTML = "";
+    return;
+  }
+  if(currentRole === "listener"){
+    renderListenerResult(cls);
+  } else {
+    renderPresenterResult(cls);
+  }
+  resultsEl.classList.add("show");
+});
+
+/* ===================== 跑班者結果 ===================== */
+function renderListenerResult(cls){
+  const group = CLASS_TO_GROUP[cls];
+  const members = GROUPS[group];
+  const route = GROUP_ROUTES[group];
+
+  let html = `
+    <div class="panel">
+      <div class="result-heading">
+        <h3 class="serif">${cls}</h3>
+        <span class="badge">第 ${group} 組</span>
+      </div>
+      <div class="group-members">
+        ${members.map(m => `<span class="member-chip ${m===cls ? "me" : ""}">${m}</span>`).join("")}
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="step-label">跑班路線</div>
+      <div class="timeline">
+  `;
+
+  SESSIONS.forEach(s => {
+    const slot = route[s.id];
+    html += `
+      <div class="slot-card">
+        <div class="slot-header">
+          <div>
+            <div class="slot-name">${s.label}</div>
+            <div class="slot-time mono">${s.time}</div>
+          </div>
+          <div class="room-chip highlight">${slot.room}</div>
+        </div>
+        <ul class="listen-list">
+          ${slot.listen.map(l => `<li>${l}</li>`).join("")}
+        </ul>
+      </div>
+    `;
+  });
+
+  html += `</div></div>`;
+  resultsEl.innerHTML = html;
+}
+
+/* ===================== 發表者結果 ===================== */
+function renderPresenterResult(cls){
+  const schedule = PRESENTER_SCHEDULE[cls];
+  const group = CLASS_TO_GROUP[cls];
+  const route = GROUP_ROUTES[group];
+
+  let html = `
+    <div class="panel">
+      <div class="result-heading">
+        <h3 class="serif">${cls}</h3>
+        <span class="badge">發表者行程</span>
+      </div>
+      <div class="timeline">
+  `;
+
+  SESSIONS.forEach(s => {
+    const slot = schedule[s.id];
+
+    if(slot === "OFF"){
+      const offRoute = route[s.id];
+      html += `
+        <div class="slot-card off-card">
+          <div class="slot-header">
+            <div>
+              <div class="slot-name">${s.label}</div>
+              <div class="slot-time mono">${s.time}</div>
+            </div>
+            <span class="off-tag">輪空</span>
+          </div>
+          <div class="reminder">
+            <strong>💡 提醒：</strong>此時段為輪空休息時間，歡迎前往您個人班級所屬的『第 ${group} 組』路線進行聽講交流！<br>
+            👉 建議路線：至 <strong>教室${offRoute.room}</strong> 聆聽 ${offRoute.listen.join("、")}
+          </div>
+        </div>
+      `;
+    } else {
+      html += `
+        <div class="slot-card">
+          <div class="slot-header">
+            <div>
+              <div class="slot-name">${s.label}</div>
+              <div class="slot-time mono">${s.time}</div>
+            </div>
+            <div class="room-chip highlight">${slot.room}</div>
+          </div>
+          <ul class="listen-list">
+            <li>同場發表：${slot.with}</li>
+          </ul>
+        </div>
+      `;
+    }
+  });
+
+  html += `</div></div>`;
+  resultsEl.innerHTML = html;
+}
+
+/* ===================== 表一：活動流程表 ===================== */
+function renderFlowTable(){
+  const tbody = document.getElementById("flowTable");
+  tbody.innerHTML = FLOW_ROWS.map(r => `
+    <tr><td class="mono">${r.time}</td><td>${r.event}</td><td>${r.note}</td></tr>
+  `).join("");
+}
+
+/* ===================== 表二：共學者跑班路線與組別分佈總表 ===================== */
+function renderListenerTable(){
+  const tbody = document.getElementById("listenerTable");
+  tbody.innerHTML = Object.keys(GROUPS).map(g => {
+    const members = GROUPS[g];
+    const route = GROUP_ROUTES[g];
+    return `
+      <tr>
+        <th>第 ${g} 組</th>
+        ${members.map(m => `<td>${m}</td>`).join("")}
+        ${SESSIONS.map(s => {
+          const slot = route[s.id];
+          return `<td><span class="room-tag">教室${slot.room}</span><span class="cell-sub">聆聽：${slot.listen.join("、")}</span></td>`;
+        }).join("")}
+      </tr>
+    `;
+  }).join("");
+}
+
+/* ===================== 表三：各時段各教室發表班級總表 ===================== */
+function renderRoomTable(){
+  // 由 GROUP_ROUTES 反推每個時段、每間教室對應的發表班級（= 該時段該組聆聽的兩班）
+  const roomBySession = {1:{},2:{},3:{}};
+  Object.values(GROUP_ROUTES).forEach(route => {
+    SESSIONS.forEach(s => {
+      const slot = route[s.id];
+      roomBySession[s.id][slot.room] = slot.listen;
+    });
+  });
+
+  const tbody = document.getElementById("roomTable");
+  tbody.innerHTML = ROOMS.map(r => `
+    <tr>
+      <th>教室 ${r}</th>
+      ${SESSIONS.map(s => {
+        const classes = roomBySession[s.id][r] || [];
+        return `<td>${classes.join("、")}</td>`;
+      }).join("")}
+    </tr>
+  `).join("");
+}
+
+/* ===================== 初始化 ===================== */
+renderFlowTable();
+renderListenerTable();
+renderRoomTable();
+</script>
+
+</body>
+</html>
