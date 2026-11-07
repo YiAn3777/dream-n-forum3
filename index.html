@@ -13,6 +13,7 @@
   --pr:#0a4fc4; --bl:#0f4fd8; --c1:#0b7a80;
   --pl:#e2f5f4; --bd:#b9dcdc; --band:#0a2a5c; --cy:#2be4f0;
   --tag:#eef3a8; --tagtx:#0a3fa0; --wa:#fff6dc; --wt:#7a4a00; --hd:#0a2f66; --l2:#0a63c9; --lgc:#0a3a7a;
+  --ftb:rgba(30,100,190,.13);
   --bgg:linear-gradient(180deg,#c4e0f8 0%,#e1f0fc 38%,#f6fbff 70%,#fff 100%);
   --rfont:"jf open 粉圓","jf-openhuninn-2.1","jf-openhuninn-2.0","GenSenRounded TW","GenSenRounded2 TW","源泉圓體 TW","源泉圓體","Yuanti TC","圓體-繁","Yuanti SC","Hiragino Maru Gothic ProN","Kosugi Maru","M PLUS Rounded 1c","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
   --tfont:"AR浪漫明朝體","AR Romantic Ming","AR PL Romantic Ming","Noto Serif TC","PMingLiU","Songti TC",serif;
@@ -26,6 +27,7 @@
     --pl:#153a4c; --bd:#24566a; --band:#06182e;
     --tag:#d9e68a; --tagtx:#0a3a8a; --wa:#3a2c10; --wt:#ffcf7a;
     --hd:#fff; --l2:#2be4f0; --lgc:#fff;
+    --ftb:rgba(0,10,30,.35);
     --bgg:linear-gradient(180deg,#0e3a6e 0%,#0a2447 45%,#06182e 100%);
   }
 }
@@ -35,6 +37,7 @@
   --pl:#153a4c; --bd:#24566a; --band:#06182e;
   --tag:#d9e68a; --tagtx:#0a3a8a; --wa:#3a2c10; --wt:#ffcf7a;
     --hd:#fff; --l2:#2be4f0; --lgc:#fff;
+    --ftb:rgba(0,10,30,.35);
     --bgg:linear-gradient(180deg,#0e3a6e 0%,#0a2447 45%,#06182e 100%);
 }
 
@@ -45,7 +48,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:#e1f0fc;color:var(--tx);min-height:100vh;
   font:16px/1.65 var(--rfont)}
 body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--bgg)}
-.w{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 16px 56px}
+.w{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 16px 32px}
 .mu{color:var(--mu)}
 
 /* ============ 3. 頁首：標籤、標誌、標題 ============ */
@@ -73,6 +76,9 @@ section,details.acc{margin-top:28px}
   clip-path:polygon(0 0,100% 0,94% 100%,0 100%)}
 summary.st{list-style:none;cursor:pointer}
 summary.st::-webkit-details-marker{display:none}
+details.mo-only{display:none}
+summary.st::after{content:"▼";margin-left:.6em;font-size:.65em;vertical-align:.12em}
+details[open]>summary.st::after{content:"▲"}
 summary.st:hover{filter:brightness(1.06)}
 summary.st:focus-visible{outline:3px solid var(--cy)}
 details.acc:not([open])>summary.st{margin-bottom:0}
@@ -135,6 +141,9 @@ details.rd>summary .mu{display:block}
 .dt{padding:10px 12px;line-height:1.5;text-align:center;background:var(--pl);
   border:1px solid #9ad3d8;border-left:4px solid #2a8fd0;border-radius:10px}
 .dt+.dt{margin-top:10px}
+.dt.rest{background:var(--wa);border-color:#e9b44c;border-left-color:#e9b44c}
+.dt.rest .cl,.dt.rest .oo{color:var(--wt)}
+.dt.rest .oo{font-size:14px;font-weight:600}
 .dt summary{display:flex;justify-content:center;align-items:center;gap:8px;cursor:pointer;list-style:none}
 .dt summary::-webkit-details-marker{display:none}
 .ch{flex:none;width:9px;height:9px;margin:-3px 4px 0 0;border-right:2px solid var(--pr);
@@ -171,6 +180,8 @@ th .tm{color:#9ed8e0}
 #t4 .dt{background:var(--card)}
 
 /* ============ 8. 關於我們 ============ */
+.ft{position:relative;z-index:1;margin-top:8px;padding:28px 16px calc(28px + env(safe-area-inset-bottom,0px));
+  background:var(--ftb);border-top:1px solid rgba(30,100,190,.18)}
 .icons{display:flex;justify-content:center;flex-wrap:wrap;gap:22px}
 .ic{display:block;width:56px;height:56px;border-radius:12px;overflow:hidden;
   box-shadow:0 3px 10px rgba(0,30,60,.35);transition:transform .15s}
@@ -203,6 +214,7 @@ th .tm{color:#9ed8e0}
   .gh{display:none}.gr{grid-template-columns:1fr;gap:8px}
   /* 發表者時間分配表僅電腦版顯示 */
   details.acc.pc-only{display:none}
+  details.acc.mo-only{display:block}
 }
 @media (min-width:701px){.eb{margin:0 auto}}
 </style>
@@ -223,7 +235,7 @@ th .tm{color:#9ed8e0}
       <i class="lg lg-r d"></i>
     </div>
   </div>
-  <p class="lead">選擇身分與班級，查詢個人路線</p>
+  <p class="lead">請老師選擇自己的身分與班級<br>查詢個人路線與所屬班級</p>
 </header>
 
 <main>
@@ -232,18 +244,13 @@ th .tm{color:#9ed8e0}
     <div class="panel">
       <p class="step"><i>Step 1 ·</i> 選擇身分</p>
       <div class="radios">
-        <label><input type="radio" name="role" value="pub"><span>發表者</span></label>
-        <label><input type="radio" name="role" value="lis"><span>共學者</span></label>
+        <label><input type="radio" name="role" value="pub"><span>發表講師</span></label>
+        <label><input type="radio" name="role" value="lis"><span>共學者（跑班聆聽課程的老師）</span></label>
       </div>
       <p class="step"><i>Step 2 ·</i> 選擇班級</p>
       <select id="cls" disabled aria-label="選擇班級"><option>請先選擇身分別</option></select>
       <div id="res" aria-live="polite"></div>
     </div>
-  </section>
-
-  <section>
-    <h2 class="st">活動流程表</h2>
-    <div class="tw"><table id="t1"></table></div>
   </section>
 
   <section>
@@ -254,12 +261,18 @@ th .tm{color:#9ed8e0}
     </div>
   </section>
 
+  <section>
+    <h2 class="st">活動流程表</h2>
+    <div class="tw"><table id="t1"></table></div>
+  </section>
+
   <details class="acc"><summary class="st">共學者跑班路線</summary><div class="tw"><table id="t2"></table></div></details>
-  <details class="acc"><summary class="st">發表班級表</summary><div class="tw"><table id="t3"></table></div></details>
+  <details class="acc mo-only"><summary class="st">發表班級表</summary><div class="tw"><table id="t3"></table></div></details>
   <details class="acc pc-only"><summary class="st">發表者時間分配表</summary><div id="t4"></div></details>
 
-  <section>
-    <h2 class="st">關於我們</h2>
+</main>
+</div>
+<footer class="ft">
     <div class="icons">
       <a class="ic" href="https://reurl.cc/3ylK1V" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook"><img src="data:image/png;base64,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" alt=""></a>
       <a class="ic" href="https://reurl.cc/90YDXX" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><img src="data:image/png;base64,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" alt=""></a>
@@ -271,9 +284,8 @@ th .tm{color:#9ed8e0}
       <div>聯絡專線：(04)2218-1566</div>
       <div>聯絡地址：403台中市西區民生路140號忠毅樓M101<br>國立臺中教育大學民生校區│夢的N次方</div>
     </div>
-  </section>
-</main>
-</div>
+</footer>
+
 
 <!-- 資料：由 Word 檔解析後產生（不含聽講者個人姓名） -->
 <script id="d" type="application/json">{"classes": [{"name": "國中數學", "room": "A", "slots": [null, [{"t": "許校紋", "p": ["AI-CIT：質因數分解互動教科書"]}], [{"t": "蘇漢哲", "p": ["AI tutor 融入一元一次式的魔法"]}]]}, {"name": "國中綜合", "room": "A", "slots": [[{"t": "江彧璇、張雪芬", "p": ["「從生涯探索到自主行動」之AIPACK教學創新實踐", "生成式AI輔助「食材選購與保存」之教學創新實踐"]}], null, [{"t": "江彧璇、張雪芬", "p": ["「從生涯探索到自主行動」之AIPACK教學創新實踐", "生成式AI輔助「食材選購與保存」之教學創新實踐"]}]]}, {"name": "國小數學A", "room": "A", "slots": [[{"t": "謝千慧", "p": ["合作共生–因數與公因數"]}], [{"t": "甘孟娟、賴佳瑋", "p": ["AI+數學課例"]}], null]}, {"name": "國中國文", "room": "B", "slots": [null, [{"t": "蘇千芷、洪婉真", "p": ["木蘭從軍，AI參戰"]}], [{"t": "黃小宜、柯潔茹", "p": ["AI寫作教練"]}]]}, {"name": "國小英語", "room": "B", "slots": [[{"t": "林加振、葉怡美", "p": ["Speak, Read, Write, Improve：AI讓英語學習持續進化", "Travel Smart, Live Green：AI英語課的永續行動"]}], null, [{"t": "林加振、葉怡美", "p": ["Speak, Read, Write, Improve：AI讓英語學習持續進化", "Travel Smart, Live Green：AI英語課的永續行動"]}]]}, {"name": "國小數學EECC", "room": "B", "slots": [[{"t": "許志文、田明智", "p": ["五下公畝、公頃、平方公里-試用e度協助學習"]}], [{"t": "許志文、田明智", "p": ["五下公畝、公頃、平方公里-試用e度協助學習"]}], null]}, {"name": "國小自然", "room": "C", "slots": [null, [{"t": "葉姝瑜、潘俞佑", "p": ["植物的繁殖方式", "探索聲光世界"]}], [{"t": "胡秀芳、許淑媚", "p": ["科學閱讀與探究~虎克定律的祕密", "彩虹液體疊疊樂"]}]]}, {"name": "國中英語", "room": "C", "slots": [[{"t": "陸韻萍、施妙旻、蔡秀君", "p": ["AI翻轉英語課堂—以翰林Book 5 Unit 5為例"]}], null, [{"t": "陸韻萍、施妙旻、蔡秀君", "p": ["AI翻轉英語課堂—以翰林Book 5 Unit 5為例"]}]]}, {"name": "視覺", "room": "C", "slots": [[{"t": "孫菊君", "p": ["角落有靈——與 AI 共創環境小精靈"]}], [{"t": "孫菊君", "p": ["角落有靈——與 AI 共創環境小精靈"]}], null]}, {"name": "國小國語", "room": "D", "slots": [null, [{"t": "林書楷、邱怡雯", "p": ["\"語AI同行\"--AIPACK融入語文課程"]}], [{"t": "林書楷、邱怡雯", "p": ["\"語AI同行\"--AIPACK融入語文課程"]}]]}, {"name": "國小綜合", "room": "D", "slots": [[{"t": "賴婉甄", "p": ["時光故事工作坊"]}], null, [{"t": "江英瑞", "p": ["對話即學習：用 AI 點燃高年級自學力"]}]]}, {"name": "國小社會", "room": "D", "slots": [[{"t": "張雅焄、陳史嘉", "p": ["介紹家鄉有方法"]}], [{"t": "洪德惠", "p": ["社會變遷下的個人發展與族群文化"]}], null]}, {"name": "科技教育", "room": "E", "slots": [null, [{"t": "陳佳萱、文國丞、高靖岳", "p": ["AI造物計畫：家用紙的居所設計"]}, {"t": "楊雅琪、楊心淵", "p": ["排序演算法"]}, {"t": "呂奎漢、王昭欽、徐臺屏", "p": ["玩遊戲學AI-強化式學習初體驗"]}], [{"t": "陳佳萱、文國丞、高靖岳", "p": ["AI造物計畫：家用紙的居所設計"]}, {"t": "楊雅琪、楊心淵", "p": ["排序演算法"]}, {"t": "呂奎漢、王昭欽、徐臺屏", "p": ["玩遊戲學AI-強化式學習初體驗"]}]]}, {"name": "國中自然", "room": "E", "slots": [[{"t": "黃唯芯、郭怡君", "p": ["AI如何成為國中自然的備課幫手"]}], null, [{"t": "王美玲、何莉芳", "p": ["月相"]}]]}, {"name": "聽說讀寫有策略", "room": "E", "slots": [[{"t": "李岩勳、柯靜如、黃于珊", "p": ["運用【AI助人島】培養學生AI素養：跨年段教案分享與教學實作"]}], [{"t": "李岩勳、柯靜如、黃于珊", "p": ["運用【AI助人島】培養學生AI素養：跨年段教案分享與教學實作"]}], null]}, {"name": "國小國語MAPS", "room": "F", "slots": [[{"t": "郭富華", "p": ["恆久的美（AIPACK）"]}], [{"t": "簡如敏", "p": ["單車遊日月潭（AIPACK）"]}], null]}, {"name": "國小數學B", "room": "F", "slots": [[{"t": "馬恬舒、鄒佩妤", "p": ["長方體表面積"]}], null, [{"t": "馬恬舒、鄒佩妤", "p": ["長方體表面積"]}]]}, {"name": "閱讀Song讀", "room": "F", "slots": [null, [{"t": "宋怡慧、陳茂松、温展浩", "p": ["媒體識讀－國中"]}], [{"t": "宋怡慧、陳茂松、温展浩", "p": ["媒體識讀－高中"]}]]}, {"name": "健康教育", "room": "G", "slots": [null, [{"t": "李鍾宜", "p": ["校園防疫特攻隊：傳染病危機解除任務"]}], [{"t": "李鍾宜", "p": ["校園防疫特攻隊：傳染病危機解除任務"]}]]}, {"name": "國中社會", "room": "G", "slots": [[{"t": "蔡宜岑", "p": ["西亞古文明"]}], null, [{"t": "蔡宜岑", "p": ["埃及古文明"]}]]}, {"name": "表演", "room": "G", "slots": [[{"t": "蔡淑菁、武君怡", "p": ["聽見爸媽的時光故事：AI協力訪談 × 和諧粉彩 × 一人一故事 × SEL"]}], [{"t": "蔡淑菁、武君怡", "p": ["聽見爸媽的時光故事：AI協力訪談 × 和諧粉彩 × 一人一故事 × SEL"]}], null]}], "groups": [{"id": "一", "members": ["國中國文", "國中小音樂", "科技教育", "國中小體育"], "route": ["A", "C", "D"], "listen": ["國中綜合", "國小數學A", "國小自然", "視覺", "國小國語", "國小綜合"]}, {"id": "二", "members": ["國小社會", "國小國語", "國中綜合"], "route": ["B", "F", "E"], "listen": ["國小英語", "國小數學EECC", "國小國語MAPS", "閱讀Song讀", "科技教育", "國中自然"]}, {"id": "三", "members": ["國中社會", "國中自然", "特殊教育"], "route": ["C", "A", "F"], "listen": ["國中英語", "視覺", "國中數學", "國小數學A", "閱讀Song讀", "國小數學B"]}, {"id": "四", "members": ["國小數學B", "國中小視覺", "閱讀Song讀"], "route": ["D", "B", "G"], "listen": ["國小社會", "國小綜合", "國中國文", "國小數學EECC", "健康教育", "國中社會"]}, {"id": "五", "members": ["國中英語", "國小國語MAPS", "國小綜合", "國中數學"], "route": ["E", "G", "B"], "listen": ["國中自然", "聽說讀寫有策略", "健康教育", "表演", "國中國文", "國小英語"]}, {"id": "六", "members": ["國小數學A", "國小自然", "國中小表演"], "route": ["F", "D", "A"], "listen": ["國小數學B", "國小國語MAPS", "國小國語", "國小社會", "國中綜合", "國中數學"]}, {"id": "七", "members": ["國小數學EECC", "學前教育", "健康教育"], "route": ["G", "E", "C"], "listen": ["國中社會", "表演", "科技教育", "聽說讀寫有策略", "國小自然", "國中英語"]}], "slots": ["13:30–14:30", "14:40–15:40", "15:50–16:50"], "order": ["國中國文", "國中數學", "國中英語", "國中自然", "國中社會", "國中綜合", "國小國語", "國小國語MAPS", "國小英語", "國小數學A", "國小數學B", "國小數學EECC", "國小自然", "國小社會", "國小綜合", "視覺", "表演", "聽說讀寫有策略", "閱讀Song讀", "科技教育", "健康教育"], "agenda": [["13:30–14:30", "成果發表時段一"], ["14:30–14:40", "休息時間"], ["14:40–15:40", "成果發表時段二"], ["15:40–15:50", "休息時間"], ["15:50–16:50", "成果發表時段三"], ["16:50–17:00", "休息時間"], ["17:00–17:30", "各班時間"]]}</script>
@@ -379,7 +391,9 @@ table('t2', ['', '班級', '跑班路線'],
 
 // 發表班級表（教室 × 時段）
 table('t3', ['教室', ...slotHeads],
-  rooms.map(r => [`<b>${rn(r)}</b>`, ...S.map((_, k) => inRoom(r, k).map(c => dblk(c, k)).join('') || '<span class="mu">—</span>')]));
+  rooms.map(r => [`<b>${rn(r)}</b>`, ...S.map((_, k) =>
+    inRoom(r, k).map(c => dblk(c, k)).join('') +
+    D.classes.filter(c => c.room === r && !c.slots[k]).map(c => `<div class="dt rest"><span class="cl">${esc(c.name)}</span> <span class="oo">（輪空）</span></div>`).join(''))]));
 
 // 發表者時間分配表（依教室分組）
 const cell = (c, k) => c.slots[k] ? dblk(c, k) : '<div class="blk off2">發表輪空</div>';
